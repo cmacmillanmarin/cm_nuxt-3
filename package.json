@@ -2,11 +2,15 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "dev": "ENV=local nuxt dev",
+    "generate-local": "ENV=local nuxt generate",
+    "generate-dev": "ENV=dev nuxt generate",
+    "generate-stag": "ENV=stag nuxt generate",
+    "generate-prod": "ENV=prod nuxt generate",
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "dotenv": "^16.0.1",
     "nuxt": "3.0.0-rc.3",
     "sass": "^1.52.1",
     "vite-plugin-glsl": "^0.1.2"

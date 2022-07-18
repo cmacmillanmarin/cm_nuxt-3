@@ -331,7 +331,7 @@ class Scroller {
     childInOffset(child) {
         if (!child.offset) { return child.inView; }
         const {height} = child.bounding;
-        const offset = child.offset / 100 * height;
+        const offset = child.offset * height;
         const initPos = Math.ceil(child.bounding.top + this.vars.horizontal + offset);
         const lastPos = Math.ceil(initPos + child.bounding.height);
         const windowSize = this.vars.height;
@@ -463,36 +463,29 @@ class Scroller {
     }
 
     getChildren() {
-        const children = this.section.querySelectorAll("[data-track],[data-scroll]");
+        const children = this.section.querySelectorAll("[data-scroll]");
         this.vars.horizontalGaps = [];
         for (const child of children) {
+            const data = child.dataset.scroll !== "" ? JSON.parse(child.dataset.scroll) : {};
             const {
                 tracking,
-                transitionIn,
-                transitionOut,
                 transitionAuto,
                 transitionCustomOut,
-                transitionLoop,
-                scroll,
                 scrollSticky,
                 scrollStickyParent,
                 scrollStickyContent,
                 scrollOffset,
                 scrollHorizontal,
-                transitionDuration,
-                transitionDurationIn,
-                transitionDurationOut,
-                transitionDelay,
-                transitionOffset,
                 transitionForceUpdate
             } = child.dataset;
-            const _scroll = scroll === "";
+            const _scroll = true;
             const _sticky = scrollSticky === "";
             const _stickyParent = this.section.querySelector(`#${scrollStickyParent}`);
             const _stickyContent = this.section.querySelector(`#${scrollStickyContent}`);
             const _horizontalScroll = scrollHorizontal === "";
             const auto = transitionAuto === undefined || transitionAuto === "true";
             this.children.push({
+                ...data,
                 id: child.id,
                 el: child,
                 scroll: _scroll,
@@ -512,15 +505,7 @@ class Scroller {
                 inOffset: false,
                 forceUpdate: transitionForceUpdate,
                 auto,
-                in: transitionIn,
-                out: transitionOut,
                 customOut: transitionCustomOut,
-                loop: transitionLoop,
-                delay: transitionDelay,
-                duration: parseFloat(transitionDuration || 0),
-                durationIn: parseFloat(transitionDurationIn || 0),
-                durationOut: parseFloat(transitionDurationOut || 0),
-                offset: parseFloat(transitionOffset) || 0,
                 transitioned: false,
                 tracking,
                 tracked: false,
@@ -528,7 +513,7 @@ class Scroller {
             });
             if (this.vars.smooth && child.horizontalScroll) this.addHorizontalGap(child, bounding, this.children[this.children.length - 1]);
         }
-        this.log("getChildren", this.children);
+        console.log("getChildren", this.children);
     }
 
     resetTransitions() {

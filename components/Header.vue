@@ -3,7 +3,7 @@
 -->
 
 <template>
-    <header class="c-header">
+    <header class="c-header p-f t-0 l-0 w-full pt-40 pb-20">
         <div class="grid in-layout">
             <div class="col-6">
                 <nav>
@@ -14,9 +14,9 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-6">
+            <!-- <div class="col-6">
                 {{ props.nav.name }}
-            </div>
+            </div> -->
         </div>
     </header>
 </template>
@@ -35,14 +35,7 @@ const props = defineProps(["nav"]);
 
 const links = ref([
     {to: "/", label: "Home"},
-    {to: "/about", label: "About"},
+    {to: "/strapi", label: "Strapi"},
 ]);
 
 </script>
-
-<style lang="scss" scoped>
-    header {
-        padding-top: 40px;
-        padding-bottom: 20px;
-    }
-</style>
